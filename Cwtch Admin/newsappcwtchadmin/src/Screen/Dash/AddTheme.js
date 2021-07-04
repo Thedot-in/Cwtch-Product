@@ -393,6 +393,14 @@ export default function AddTheme() {
 <ListItemText primary="Add Headings" />
 </ListItem>
 </Link>
+<Link to="/addhoroscope">
+<ListItem button>
+<ListItemIcon>
+<DashboardIcon />
+</ListItemIcon>
+<ListItemText primary="Add Horoscope" />
+</ListItem>
+</Link>
 
         <Divider />
        

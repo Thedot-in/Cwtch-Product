@@ -274,15 +274,7 @@ export default function AddHeading() {
             type:'heading',
             time:Date.now(),
             opnion:[],
-            newsTitle: thmeTitle,
-            newsDetails:thmeTitle1,
-            core:age,
-            category: agee,
-            suggested: ageee,
-            pic:logourl,
-            url:url,
-            from:page,
-            location:ageeo
+            allHeadings
         }).then(() => {
             setthmeTitle('')
             setthmeTitle1('')
@@ -295,6 +287,7 @@ export default function AddHeading() {
             setAgeee('')
             setAgeeo('')
             setpAge('')
+            setallHeadings('')
 
             return <Alert severity="warning">Uploaded</Alert>
         }).catch(err => {
@@ -314,6 +307,7 @@ export default function AddHeading() {
     }
 
 
+    
 
     const [opene, setopene] = useState(false)
     const [popene, setpopene] = useState(false)
@@ -329,6 +323,10 @@ export default function AddHeading() {
     const [ageeo, setAgeeo] = useState('');
 
     const [url, seturl] = useState('');
+
+    const [allHeadings, setallHeadings] = useState([]);
+
+
     const handleChange1 = (event) => {
         setAge(event.target.value);
       };
@@ -399,7 +397,34 @@ export default function AddHeading() {
 
 
 
+const onAddHeadings = () => {
+    const Heading_Obj = {
+      headingTitle: thmeTitle,
+      heaingDetails:thmeTitle1,
+      core:age,
+      category: agee,
+      suggested: ageee,
+      pic:logourl,
+      url:url,
+      from:page,
+      location:ageeo
+    }
+    let Temp = allHeadings;
+    Temp.push(Heading_Obj);
+    setallHeadings(Temp)
+    setthmeTitle('')
+    setthmeTitle1('')
+    setlogourl('')
+    setProgress(false)
+    setshowFile(true)
+    setAge('')
+    seturl('')
+    setAgee('')
+    setAgeee('')
+    setAgeeo('')
+    setpAge('')
 
+}
 
   return (
     <div className={classes.root}>
@@ -740,9 +765,13 @@ Upload
           variant="outlined"
         />
             </div>
+            <div style={{marginLeft:500,marginTop:60}}>
+        <Button variant="contained" color="scuccess"  onClick={onAddHeadings}>
+  Next
+</Button>
+        </div>
 
-
-        <div style={{marginLeft:500,marginTop:60}}>
+        <div style={{marginLeft:500,marginTop:60,marginBottom:50}}>
         <Button variant="contained" color="primary"  onClick={onSubmitTheme}>
   Upload
 </Button>
