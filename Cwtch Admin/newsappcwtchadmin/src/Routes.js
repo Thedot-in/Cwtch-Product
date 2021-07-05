@@ -31,6 +31,10 @@ const Routes = () => {
                     <Route exact path="/addvnews" component={AddVideoNews}/>
                     <Route exact path="/addheadings" component={AddHeading}/>
 
+                    // The day
+                    <Route exact path="/addtheday" component={AddSignes}/>
+
+
 
                     <Route exact path="/addads" component={AddAdvertisment}/>
 

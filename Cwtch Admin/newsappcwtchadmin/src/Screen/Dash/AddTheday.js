@@ -171,10 +171,6 @@ var firebaseConfig = {
 
 
 
-
-
-
-
 export default function AddTheday() {
 
 
