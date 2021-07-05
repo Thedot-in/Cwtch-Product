@@ -244,15 +244,16 @@ export default function AddTheday() {
         firebase.database().ref(`/news/${id}`).set(
             {
                 title: thmeTitle,
-                by:by,
-                type:'quotes',
-                logo: logourl,
-                color:themeColor
+                link:by,
+                type:'theday',
+                doodle: logourl,
+  
             }
         ).then(() => {
             setthmeTitle('')
             setlogourl('')
             setby('')
+            setlogourl('')
             setlogo(null)
             setthemeColor('')
 
@@ -423,7 +424,7 @@ export default function AddTheday() {
 <div>
 <Form>
 <Form.Group>
-<Form.File type="file" id="file" label="Zordiac sign logo" onChange={handleThemeLogo}/>
+<Form.File type="file" id="file" label="The day pic" onChange={handleThemeLogo}/>
 </Form.Group>
 </Form>
 <Button variant="contained" color="secondary" onClick={uploadPic}>
