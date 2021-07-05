@@ -173,7 +173,7 @@ var firebaseConfig = {
 
 
 
-export default function AddTheme() {
+export default function AddSignes() {
 
 
     const [thmeTitle, setthmeTitle] = useState('');
@@ -205,7 +205,7 @@ export default function AddTheme() {
         let file = logo;
         var storage = firebase.storage();
         var storageRef = storage.ref();
-        var uploadTask = storageRef.child(`theme/logo/${file.name}`).put(file);
+        var uploadTask = storageRef.child(`signs/logo/${file.name}`).put(file);
 
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
             (snapshot) =>{
@@ -236,17 +236,17 @@ export default function AddTheme() {
         }
 
 
-        firebase.database().ref(`/theme/${thmeTitle}`).set(
+        firebase.database().ref(`/signs/${thmeTitle}`).set(
             {
                 title: thmeTitle,
                 logo: logourl,
-                color:themeColor
+
             }
         ).then(() => {
             setthmeTitle('')
             setlogourl('')
             setlogo(null)
-            setthemeColor('')
+        
 
     setshowFile(true)
             console.log("Done");
@@ -302,7 +302,7 @@ export default function AddTheme() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Core Theme
+            Add Signs
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -420,10 +420,10 @@ export default function AddTheme() {
                 <div>
         <TextField
           id="outlined-full-width"
-          label="Enter the Theme Title"
+          label="Enter the Sign"
           style={{ margin: 8,marginRight:500,marginLeft:200,marginTop:50 }}
-          placeholder="Theme title"
-          helperText="Theme title is important"
+          placeholder="Theme sign"
+          helperText="Theme name to Sign"
           fullWidth
           margin="normal"
           onChange={handleThemeTitle}
@@ -433,30 +433,14 @@ export default function AddTheme() {
           }}
           variant="outlined"
         />
-         <div>
-        <TextField
-          id="outlined-full-width"
-          label="Enter the Theme Title"
-          style={{ margin: 8,marginRight:500,marginLeft:200,marginTop:50 }}
-          placeholder="Color for design"
-          helperText="Theme color"
-          fullWidth
-          margin="normal"
-          onChange={handleThemeColor}
-          value={themeColor}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          variant="outlined"
-        />
-        </div>
+        
         <div style={{marginLeft:200,marginTop:50}}>
 
             {showFile ? (
 <div>
 <Form>
   <Form.Group>
-    <Form.File type="file" id="file" label="Upload the logo for Theme" onChange={handleThemeLogo}/>
+    <Form.File type="file" id="file" label="Zordiac sign logo" onChange={handleThemeLogo}/>
   </Form.Group>
 </Form>
 <Button variant="contained" color="secondary" onClick={uploadPic}>

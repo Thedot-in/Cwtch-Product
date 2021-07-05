@@ -15,6 +15,7 @@ import AddQoutes from './Screen/Dash/AddQuotes';
 import AddPartnership from './Screen/Partnership/AddPartnership';
 import AddHeading from './Screen/Dash/AddHeading';
 import AddHoroscope from './Screen/Dash/AddHoroscope';
+import AddSignes from './Screen/Dash/AddSignes';
 
 const Routes = () => {
 
@@ -33,6 +34,7 @@ const Routes = () => {
 
                     <Route exact path="/addads" component={AddAdvertisment}/>
 
+                    <Route exact path="/addsignes" component={AddSignes}/>
                     <Route exact path="/addhoroscope" component={AddHoroscope}/>
 
 
