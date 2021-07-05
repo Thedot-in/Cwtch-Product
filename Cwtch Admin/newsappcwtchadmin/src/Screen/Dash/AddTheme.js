@@ -409,6 +409,14 @@ export default function AddTheme() {
 <ListItemText primary="Add Horoscope" />
 </ListItem>
 </Link>
+<Link to="/addtheday">
+<ListItem button>
+<ListItemIcon>
+<DashboardIcon />
+</ListItemIcon>
+<ListItemText primary="Add Day of" />
+</ListItem>
+</Link>
 
         <Divider />
        
