@@ -414,6 +414,7 @@ const [IsPolling, setIsPolling] = useState(false)
 
 const [addHoroscpe, setaddHoroscpe] = useState([]);
 const onAddHoros = () => {
+  console.log(age);
   const Horos = {age,thmeTitle};
   let y = addHoroscpe;
   y.push(Horos);
@@ -430,7 +431,8 @@ const onSubmitHoros = (e) => {
       id,
       type:'horos',
       time:Date.now(),
-      horos:addHoroscpe
+      horos:addHoroscpe,
+
 
 
   }).then(() => {
@@ -555,7 +557,7 @@ const onSubmitHoros = (e) => {
         >
             {coretheme && coretheme.map((item,index) => {
                     return(
-                        <MenuItem value={item.title,item.logo}>
+                        <MenuItem value={item}>
                         <em>{item.title}</em>
                         {/* <em>{item.logo}</em> */}
                       </MenuItem>
