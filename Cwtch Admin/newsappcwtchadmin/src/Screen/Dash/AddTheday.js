@@ -168,15 +168,43 @@ var firebaseConfig = {
  }else {
     firebase.app(); // if already initialized, use that one
  }
-
-
+ 
 
 export default function AddTheday() {
 
-
-    const [thmeTitle, setthmeTitle] = useState('');
     const [progress, setProgress] = useState(false);
     const [showFile, setshowFile] = useState(true)
+   
+    const uploadPic = (e) => {
+       e.preventDefault();
+       setProgress(true)
+       setshowFile(false)
+       let file = logo;
+       var storage = firebase.storage();
+       var storageRef = storage.ref();
+       var uploadTask = storageRef.child(`theday/pic/${file.name}`).put(file);
+   
+       uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+           (snapshot) =>{
+             var progress = Math.round((snapshot.bytesTransferred/snapshot.totalBytes))*100
+   
+           },(error) =>{
+             throw error
+           },() =>{
+             // uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) =>{
+       
+             uploadTask.snapshot.ref.getDownloadURL().then((url) =>{
+               setlogourl(url)
+               setProgress(false)
+             })
+       
+          }
+        ) 
+   }
+    const [thmeTitle, setthmeTitle] = useState('');
+
+
+
     const [themeColor, setthemeColor] = useState('');
     const [by, setby] = useState('')
 
@@ -282,7 +310,7 @@ export default function AddTheday() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Add Quotes
+            Add The Of
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -376,10 +404,10 @@ export default function AddTheday() {
                 <div>
         <TextField
           id="outlined-full-width"
-          label="Enter the Quotes"
+          label="The day"
           style={{ margin: 8,marginRight:500,marginLeft:200,marginTop:50 }}
-          placeholder="Add Quotes"
-          helperText="Quotes for Today"
+          placeholder="Enter the importance of the day"
+          helperText="The day importance"
           fullWidth
           margin="normal"
           onChange={handleThemeTitle}
@@ -389,13 +417,42 @@ export default function AddTheday() {
           }}
           variant="outlined"
         />
+         <div style={{marginLeft:200,marginTop:50}}>
+
+{showFile ? (
+<div>
+<Form>
+<Form.Group>
+<Form.File type="file" id="file" label="Zordiac sign logo" onChange={handleThemeLogo}/>
+</Form.Group>
+</Form>
+<Button variant="contained" color="secondary" onClick={uploadPic}>
+Upload
+</Button>
+</div>
+) : (
+   (progress && !showFile) ? (
+    <LinearProgress />
+
+   ) : (
+        <div>
+            <Alert severity="success">Logo upload done</Alert>
+            </div>
+   )
+
+   
+)
+
+}
+
+</div>
          <div>
         <TextField
           id="outlined-full-width"
-          label="Enter By thome"
+          label="Link fo the events"
           style={{ margin: 8,marginRight:500,marginLeft:200,marginTop:50 }}
-          placeholder="By"
-          helperText="By"
+          placeholder="The link"
+          helperText="Event"
           fullWidth
           margin="normal"
           onChange={handleBy}
@@ -406,7 +463,7 @@ export default function AddTheday() {
           variant="outlined"
         />
         </div>
-        <div>
+        {/* <div>
         <TextField
           id="outlined-full-width"
           label="Enter the Theme Title for quotes"
@@ -422,7 +479,7 @@ export default function AddTheday() {
           }}
           variant="outlined"
         />
-        </div>
+        </div> */}
         {/* <div style={{marginLeft:200,marginTop:50}}>
 
             {showFile ? (

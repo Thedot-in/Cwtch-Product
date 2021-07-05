@@ -16,6 +16,7 @@ import AddPartnership from './Screen/Partnership/AddPartnership';
 import AddHeading from './Screen/Dash/AddHeading';
 import AddHoroscope from './Screen/Dash/AddHoroscope';
 import AddSignes from './Screen/Dash/AddSignes';
+import AddTheday from './Screen/Dash/AddTheday';
 
 const Routes = () => {
 
@@ -32,7 +33,7 @@ const Routes = () => {
                     <Route exact path="/addheadings" component={AddHeading}/>
 
                     // The day
-                    <Route exact path="/addtheday" component={AddSignes}/>
+                    <Route exact path="/addtheday" component={AddTheday}/>
 
 
 
