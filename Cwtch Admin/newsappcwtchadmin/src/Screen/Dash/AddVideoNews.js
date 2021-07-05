@@ -272,14 +272,16 @@ export default function AddVideoNews() {
             id,
             type:'video',
             time:Date.now(),
+            from:page,
             opnion:[],
             newsTitle: thmeTitle,
             newsDetails:thmeTitle1,
             core:age,
+            url:videourl,
             category: agee,
             suggested: ageee,
             pic:logourl,
-            url:url
+            vurl:url
         }).then(() => {
             setthmeTitle('')
             setthmeTitle1('')
@@ -291,6 +293,7 @@ export default function AddVideoNews() {
             setAgee('')
             setAgeee('')
             setpAge('')
+            setvideourl('')
 
             return <Alert severity="warning">Uploaded</Alert>
         }).catch(err => {
@@ -319,7 +322,7 @@ export default function AddVideoNews() {
     const [agee, setAgee] = useState('');
     const [ageee, setAgeee] = useState('');
     const [page, setpAge] = useState('');
-
+    const [videourl,setvideourl] = useState('');
     const [url, seturl] = useState('');
     const handleChange1 = (event) => {
         setAge(event.target.value);
@@ -343,7 +346,9 @@ export default function AddVideoNews() {
       const handleClose2 = () => {
         setopenee(false);
       };
-    
+      const handleThemeUrl = (event) => {
+        setvideourl(event.target.value)
+      }
       const handleOpen2 = () => {
         setopenee(true);
       };
@@ -638,6 +643,23 @@ Upload
           multiline
           onChange={handleThemeTitle1}
           value={thmeTitle1}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          variant="outlined"
+        />
+            </div>
+            <div>
+            <TextField
+          id="outlined-full-width"
+          label="Enter the News link"
+          style={{ margin: 8,marginRight:500,marginLeft:200,marginTop:50 }}
+          placeholder="Topic"
+          helperText="Enter the URL news"
+          fullWidth
+          margin="normal"
+          onChange={handleThemeUrl}
+          value={videourl}
           InputLabelProps={{
             shrink: true,
           }}

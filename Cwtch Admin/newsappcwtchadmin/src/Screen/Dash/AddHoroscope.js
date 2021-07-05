@@ -178,7 +178,7 @@ var firebaseConfig = {
 
 
 
-export default function AddHeading() {
+export default function AddHoroscope() {
 
     
     
@@ -206,7 +206,7 @@ export default function AddHeading() {
 
 
     const getCoreTheme = () => {
-        firebase.database().ref('/theme').on( 'value' , snapshot => {
+        firebase.database().ref('/signs').on( 'value' , snapshot => {
             const snap = snapshot.val();
             console.log(snap);
             setcoretheme(Object.values(snap))
@@ -246,7 +246,7 @@ export default function AddHeading() {
         let file = logo;
         var storage = firebase.storage();
         var storageRef = storage.ref();
-        var uploadTask = storageRef.child(`headlines/pic/${file.name}`).put(file);
+        var uploadTask = storageRef.child(`news/pic/${file.name}`).put(file);
 
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
             (snapshot) =>{
@@ -271,10 +271,23 @@ export default function AddHeading() {
         const id = uuidv4();
         firebase.database().ref(`/news/${id}`).set({
             id,
-            type:'heading',
+            type:'news',
             time:Date.now(),
             opnion:[],
-            allHeadings
+            newsTitle: thmeTitle,
+            newsDetails:thmeTitle1,
+            core:age,
+            category: agee,
+            suggested: ageee,
+            pic:logourl,
+            url:url,
+
+            polling,
+            yespoll:0,
+            nopoll:0,
+            
+            from:page,
+            location:ageeo
         }).then(() => {
             setthmeTitle('')
             setthmeTitle1('')
@@ -287,7 +300,8 @@ export default function AddHeading() {
             setAgeee('')
             setAgeeo('')
             setpAge('')
-            setallHeadings('')
+            setpolling('')
+            setIsPolling(false)
 
             return <Alert severity="warning">Uploaded</Alert>
         }).catch(err => {
@@ -307,7 +321,6 @@ export default function AddHeading() {
     }
 
 
-    
 
     const [opene, setopene] = useState(false)
     const [popene, setpopene] = useState(false)
@@ -324,8 +337,7 @@ export default function AddHeading() {
 
     const [url, seturl] = useState('');
 
-    const [allHeadings, setallHeadings] = useState([]);
-
+    const [polling, setpolling] = useState('');
 
     const handleChange1 = (event) => {
         setAge(event.target.value);
@@ -353,6 +365,9 @@ export default function AddHeading() {
       };
       const handleURL = (e) => {
         seturl(e.target.value)
+      }
+      const handlePolling = (e) => {
+        setpolling(e.target.value)
       }
     
       const handleOpen1 = () => {
@@ -395,35 +410,50 @@ export default function AddHeading() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+const [IsPolling, setIsPolling] = useState(false)
+
+const [addHoroscpe, setaddHoroscpe] = useState([]);
+const onAddHoros = () => {
+  console.log(age);
+  const Horos = {age,thmeTitle};
+  let y = addHoroscpe;
+  y.push(Horos);
+  setaddHoroscpe(y);
+  setAge('');
+  setthmeTitle('');
+}
 
 
-const onAddHeadings = () => {
-    const Heading_Obj = {
-      headingTitle: thmeTitle,
-      heaingDetails:thmeTitle1,
-      core:age,
-      category: agee,
-      suggested: ageee,
-      pic:logourl,
-      url:url,
-      from:page,
-      location:ageeo
-    }
-    let Temp = allHeadings;
-    Temp.push(Heading_Obj);
-    setallHeadings(Temp)
-    setthmeTitle('')
-    setthmeTitle1('')
-    setlogourl('')
-    setProgress(false)
-    setshowFile(true)
-    setAge('')
-    seturl('')
-    setAgee('')
-    setAgeee('')
-    setAgeeo('')
-    setpAge('')
+const onSubmitHoros = (e) => {
+  e.preventDefault();
+  const id = uuidv4();
+  firebase.database().ref(`/news/${id}`).set({
+      id,
+      type:'horos',
+      time:Date.now(),
+      horos:addHoroscpe,
 
+
+
+  }).then(() => {
+      setthmeTitle('')
+      setthmeTitle1('')
+      setlogourl('')
+      setProgress(false)
+      setshowFile(true)
+      setAge('')
+      seturl('')
+      setAgee('')
+      setAgeee('')
+      setAgeeo('')
+      setpAge('')
+      setpolling('')
+      setIsPolling(false)
+
+      return <Alert severity="warning">Uploaded</Alert>
+  }).catch(err => {
+
+  })
 }
 
   return (
@@ -441,7 +471,7 @@ const onAddHeadings = () => {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Heading Section
+            Add Horoscope
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -510,11 +540,8 @@ const onAddHeadings = () => {
 
         <div className={classes.appBarSpacer} />
 
-            <div className={classes.root} style={{marginTop:100}}>
-
-                
-                <div>
-                <div style={{margin: 8,marginRight:500,marginLeft:200,marginTop:50}}>
+        <div>
+        <div style={{margin: 8,marginRight:500,marginLeft:200,marginTop:150,width:500}}>
                 <FormControl className={classes.formControl}>
                     <div className={classes.root} component="h2">
                     Add Core Theme to the News
@@ -530,8 +557,9 @@ const onAddHeadings = () => {
         >
             {coretheme && coretheme.map((item,index) => {
                     return(
-                        <MenuItem value={item.title}>
+                        <MenuItem value={item}>
                         <em>{item.title}</em>
+                        {/* <em>{item.logo}</em> */}
                       </MenuItem>
                     )
             })
@@ -542,184 +570,13 @@ const onAddHeadings = () => {
 
       </FormControl>
                 </div>
-                <div style={{margin: 8,marginRight:500,marginLeft:200,marginTop:50}}>
-                <FormControl className={classes.formControl}>
-                    <div className={classes.root} component="h2">
-                    From Partner
-                    </div> 
-        <Select
-          labelId="demo-controlled-open-select-label"
-          id="demo-controlled-open-select"
-          open={popene}
-          onClose={phandleClose1}
-          onOpen={phandleOpen1}
-          value={page}
-          onChange={phandleChange1}
-        >
-            {partners && partners.map((item,index) => {
-                    return(
-                        <MenuItem value={item.name}>
-                        <em>{item.name}</em>
-                      </MenuItem>
-                    )
-            })
-
-            }
-    
-        </Select>
-
-      </FormControl>
-                </div>
-                <div style={{margin: 8,marginRight:500,marginLeft:200,marginTop:50}}>
-                <FormControl className={classes.formControl}>
-                    <div className={classes.root} component="h2">
-                    Add Category
-                    </div> 
-        <Select
-          labelId="demo-controlled-open-select-label"
-          id="demo-controlled-open-select"
-          open={openee}
-          onClose={handleClose2}
-          onOpen={handleOpen2}
-          value={agee}
-          onChange={handleChange2}
-        >
-             <MenuItem value="">
-            My Feed
-          </MenuItem>
-          <MenuItem value="All News">All News</MenuItem>
-          <MenuItem value="Top Stories">Top Stories</MenuItem>
-          <MenuItem value="Trending">Trending</MenuItem>
-          <MenuItem value="Bookmarks">Bookmarks</MenuItem>
-          <MenuItem value="Unreal">Unreal</MenuItem>
-
-
-         
-        </Select>
-      </FormControl>
-                </div>
-                <div style={{margin: 8,marginRight:500,marginLeft:200,marginTop:50}}>
-                <FormControl className={classes.formControl}>
-                    <div className={classes.root} component="h2">
-                    Add Suggested Topics
-                    </div> 
-        <Select
-          labelId="demo-controlled-open-select-label"
-          id="demo-controlled-open-select"
-          open={openeee}
-          onClose={handleClose3}
-          onOpen={handleOpen3}
-          value={ageee}
-          onChange={handleChange3}
-        >
-           {suggtheme && suggtheme.map((item,index) => {
-                    return(
-                        <MenuItem value={item.title}>
-                        <em>{item.title}</em>
-                      </MenuItem>
-                    )
-            })
-
-            }
-        </Select>
-      </FormControl>
-      <div style={{marginLeft:200,marginTop:50}}>
-
-{showFile ? (
-<div>
-<Form>
-<Form.Group>
-<Form.File type="file" id="file" label="Upload the logo for Topic" onChange={handleThemeLogo}/>
-</Form.Group>
-</Form>
-<Button variant="contained" color="secondary" onClick={uploadPic}>
-Upload
-</Button>
-</div>
-) : (
-   (progress && !showFile) ? (
-    <LinearProgress />
-
-   ) : (
-        <div>
-            <Alert severity="success">Logo upload done</Alert>
-            </div>
-   )
-
-   
-)
-
-}
-
-</div>
-
-<div className={classes.root} style={{marginTop:100,marginLeft:500}}>
-        <FormControl className={classes.formControl}>
-                    <div className={classes.root} component="h2">
-                    Add Location
-                    </div> 
-        <Select
-          labelId="demo-controlled-open-select-label"
-          id="demo-controlled-open-select"
-          open={oopenee}
-          onClose={handleClose2o}
-          onOpen={handleOpen2o}
-          value={ageeo}
-          onChange={handleChange2o}
-        >
-             <MenuItem value="all">
-            All Location
-          </MenuItem>
-
-<MenuItem value="Theni">Theni</MenuItem>
-<MenuItem value="Coimbatore">Coimbatore</MenuItem>
-<MenuItem value="Ariyalur">Ariyalur</MenuItem>
-<MenuItem value="Chengalpattu">Chengalpattu</MenuItem>
-<MenuItem value="Chennai">Chennai</MenuItem>
-<MenuItem value="Cuddalore">Cuddalore</MenuItem>
-<MenuItem value="Dharmapuri">Dharmapuri</MenuItem>
-<MenuItem value="Dindigul">Dindigul</MenuItem>
-<MenuItem value="Erode">Erode</MenuItem>
-<MenuItem value="Kallakurichi">Kallakurichi</MenuItem>
-<MenuItem value="Kanchipuram">Kanchipuram</MenuItem>
-<MenuItem value="Kanyakumari">Kanyakumari</MenuItem>
-<MenuItem value="Karur">Karur</MenuItem>
-<MenuItem value="Krishnagiri">Krishnagiri</MenuItem>
-<MenuItem value="Madurai">Madurai</MenuItem>
-<MenuItem value="Nagapattinam">Nagapattinam</MenuItem>
-<MenuItem value="Namakkal">Namakkal</MenuItem>
-<MenuItem value="Nilgiris">Nilgiris</MenuItem>
-<MenuItem value="Perambalur">Perambalur</MenuItem>
-<MenuItem value="Pudukkottai">Pudukkottai</MenuItem>
-<MenuItem value="Ramanathapuram">Ramanathapuram</MenuItem>
-<MenuItem value="Ranipet">Ranipet</MenuItem>
-<MenuItem value="Salem">Salem</MenuItem>
-<MenuItem value="Sivaganga">Sivaganga</MenuItem>
-<MenuItem value="Tenkasi">Tenkasi</MenuItem>
-<MenuItem value="Tuticorin">Tuticorin</MenuItem>
-<MenuItem value="Thanjavur">Thanjavur</MenuItem>
-<MenuItem value="Tirupathur">Tirupathur</MenuItem>
-<MenuItem value="Tiruchirappalli">Tiruchirappalli</MenuItem>
-<MenuItem value="Tenkasi">Tenkasi</MenuItem>
-<MenuItem value="Tiruvallur">Tiruvallur</MenuItem>
-<MenuItem value="Tiruvannamalai">Tiruvannamalai</MenuItem>
-<MenuItem value="Tiruvarur">Tiruvarur</MenuItem>
-<MenuItem value="Vellore">Vellore</MenuItem>
-<MenuItem value="Viluppuram">Viluppuram</MenuItem>
-<MenuItem value="Virudhunagar">Virudhunagar</MenuItem>
-
-         
-        </Select>
-      </FormControl>
-        </div>
-                </div>
-               
-        <TextField
+                <div>
+                <TextField
           id="outlined-full-width"
-          label="Enter the Theme Title"
-          style={{ margin: 8,marginRight:500,marginLeft:200,marginTop:50 }}
+          label="Enter Today's Happening"
+          style={{ margin: 5,marginRight:200,marginLeft:50,marginTop:200 }}
           placeholder="Topic"
-          helperText="Enter the Headlines"
+          helperText="Enter the Sign description"
           fullWidth
           margin="normal"
           onChange={handleThemeTitle}
@@ -729,56 +586,18 @@ Upload
           }}
           variant="outlined"
         />
-            <div>
-
-            <TextField
-          id="outlined-full-width"
-          label="Enter the Theme Title"
-          style={{ margin: 8,marginRight:500,marginLeft:200,marginTop:50 }}
-          placeholder="Topic"
-          helperText="Enter the Headlines Details"
-          fullWidth
-          margin="normal"
-          multiline
-          onChange={handleThemeTitle1}
-          value={thmeTitle1}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          variant="outlined"
-        />
-            </div>
-            <div>
-            <TextField
-          id="outlined-full-width"
-          label="Enter the Theme Title"
-          style={{ margin: 8,marginRight:500,marginLeft:200,marginTop:50 }}
-          placeholder="URL of the news"
-          helperText="Enter the URL"
-          fullWidth
-          margin="normal"
-          onChange={handleURL}
-          value={url}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          variant="outlined"
-        />
-            </div>
-            <div style={{marginLeft:500,marginTop:60}}>
-        <Button variant="contained" color="scuccess"  onClick={onAddHeadings}>
+                </div>
+        </div>
+        <div style={{marginLeft:500,marginTop:60}}>
+        <Button variant="contained" color="scuccess"  onClick={onAddHoros}>
   Next
 </Button>
         </div>
-
-        <div style={{marginLeft:500,marginTop:60,marginBottom:50}}>
-        <Button variant="contained" color="primary"  onClick={onSubmitTheme}>
-  Upload
+        <div style={{marginLeft:500,marginTop:60}}>
+        <Button variant="contained" color="scuccess"  onClick={onSubmitHoros}>
+  Submit
 </Button>
         </div>
-                    </div>
-            </div>
-
     </div>
   );
 }

@@ -14,6 +14,9 @@ import AddVideoNews from './Screen/Dash/AddVideoNews';
 import AddQoutes from './Screen/Dash/AddQuotes';
 import AddPartnership from './Screen/Partnership/AddPartnership';
 import AddHeading from './Screen/Dash/AddHeading';
+import AddHoroscope from './Screen/Dash/AddHoroscope';
+import AddSignes from './Screen/Dash/AddSignes';
+import AddTheday from './Screen/Dash/AddTheday';
 
 const Routes = () => {
 
@@ -29,9 +32,15 @@ const Routes = () => {
                     <Route exact path="/addvnews" component={AddVideoNews}/>
                     <Route exact path="/addheadings" component={AddHeading}/>
 
+                    // The day
+                    <Route exact path="/addtheday" component={AddTheday}/>
+
+
 
                     <Route exact path="/addads" component={AddAdvertisment}/>
 
+                    <Route exact path="/addsignes" component={AddSignes}/>
+                    <Route exact path="/addhoroscope" component={AddHoroscope}/>
 
 
 

@@ -2,6 +2,8 @@
 import React,{useState} from 'react'
 import {Form,Col,Row,Image} from 'react-bootstrap'
 import clsx from 'clsx';
+import { v4 as uuidv4 } from 'uuid'
+
 import { Link } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -166,20 +168,45 @@ var firebaseConfig = {
  }else {
     firebase.app(); // if already initialized, use that one
  }
+ 
 
+export default function AddTheday() {
 
-
-
-
-
-
-export default function AddTheme() {
-
-
-    const [thmeTitle, setthmeTitle] = useState('');
     const [progress, setProgress] = useState(false);
     const [showFile, setshowFile] = useState(true)
+   
+    const uploadPic = (e) => {
+       e.preventDefault();
+       setProgress(true)
+       setshowFile(false)
+       let file = logo;
+       var storage = firebase.storage();
+       var storageRef = storage.ref();
+       var uploadTask = storageRef.child(`theday/pic/${file.name}`).put(file);
+   
+       uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+           (snapshot) =>{
+             var progress = Math.round((snapshot.bytesTransferred/snapshot.totalBytes))*100
+   
+           },(error) =>{
+             throw error
+           },() =>{
+             // uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) =>{
+       
+             uploadTask.snapshot.ref.getDownloadURL().then((url) =>{
+               setlogourl(url)
+               setProgress(false)
+             })
+       
+          }
+        ) 
+   }
+    const [thmeTitle, setthmeTitle] = useState('');
+
+
+
     const [themeColor, setthemeColor] = useState('');
+    const [by, setby] = useState('')
 
     const [logourl, setlogourl] = useState('');
 
@@ -198,37 +225,15 @@ export default function AddTheme() {
       setthemeColor(event.target.value);
   }
 
-    const uploadPic = (e) => {
-        e.preventDefault();
-        setProgress(true)
-        setshowFile(false)
-        let file = logo;
-        var storage = firebase.storage();
-        var storageRef = storage.ref();
-        var uploadTask = storageRef.child(`theme/logo/${file.name}`).put(file);
+  const handleBy = (event) => {
+    setby(event.target.value);
+}
 
-        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-            (snapshot) =>{
-              var progress = Math.round((snapshot.bytesTransferred/snapshot.totalBytes))*100
-
-            },(error) =>{
-              throw error
-            },() =>{
-              // uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) =>{
-        
-              uploadTask.snapshot.ref.getDownloadURL().then((url) =>{
-                setlogourl(url)
-                setProgress(false)
-              })
-        
-           }
-         ) 
-    }
 
     const onSubmitTheme = (e) => {
         e.preventDefault();    
         console.log("Here");
-
+        const id = uuidv4();
         if(thmeTitle.length <= 1 && !logourl){
             return(
 <Alert severity="warning">Fill all fields</Alert>
@@ -236,14 +241,18 @@ export default function AddTheme() {
         }
 
 
-        firebase.database().ref(`/theme/${thmeTitle}`).set(
+        firebase.database().ref(`/news/${id}`).set(
             {
                 title: thmeTitle,
-                logo: logourl,
-                color:themeColor
+                link:by,
+                type:'theday',
+                doodle: logourl,
+  
             }
         ).then(() => {
             setthmeTitle('')
+            setlogourl('')
+            setby('')
             setlogourl('')
             setlogo(null)
             setthemeColor('')
@@ -302,7 +311,7 @@ export default function AddTheme() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Core Theme
+            Add The Of
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -385,38 +394,6 @@ export default function AddTheme() {
 <ListItemText primary="Add Quotes" />
 </ListItem>
 </Link>
-<Link to="/addheadings">
-<ListItem button>
-<ListItemIcon>
-<DashboardIcon />
-</ListItemIcon>
-<ListItemText primary="Add Headings" />
-</ListItem>
-</Link>
-<Link to="/addsignes">
-<ListItem button>
-<ListItemIcon>
-<DashboardIcon />
-</ListItemIcon>
-<ListItemText primary="Add Signes" />
-</ListItem>
-</Link>
-<Link to="/addhoroscope">
-<ListItem button>
-<ListItemIcon>
-<DashboardIcon />
-</ListItemIcon>
-<ListItemText primary="Add Horoscope" />
-</ListItem>
-</Link>
-<Link to="/addtheday">
-<ListItem button>
-<ListItemIcon>
-<DashboardIcon />
-</ListItemIcon>
-<ListItemText primary="Add Day of" />
-</ListItem>
-</Link>
 
         <Divider />
        
@@ -428,10 +405,10 @@ export default function AddTheme() {
                 <div>
         <TextField
           id="outlined-full-width"
-          label="Enter the Theme Title"
+          label="The day"
           style={{ margin: 8,marginRight:500,marginLeft:200,marginTop:50 }}
-          placeholder="Theme title"
-          helperText="Theme title is important"
+          placeholder="Enter the importance of the day"
+          helperText="The day importance"
           fullWidth
           margin="normal"
           onChange={handleThemeTitle}
@@ -441,10 +418,56 @@ export default function AddTheme() {
           }}
           variant="outlined"
         />
+         <div style={{marginLeft:200,marginTop:50}}>
+
+{showFile ? (
+<div>
+<Form>
+<Form.Group>
+<Form.File type="file" id="file" label="The day pic" onChange={handleThemeLogo}/>
+</Form.Group>
+</Form>
+<Button variant="contained" color="secondary" onClick={uploadPic}>
+Upload
+</Button>
+</div>
+) : (
+   (progress && !showFile) ? (
+    <LinearProgress />
+
+   ) : (
+        <div>
+            <Alert severity="success">Logo upload done</Alert>
+            </div>
+   )
+
+   
+)
+
+}
+
+</div>
          <div>
         <TextField
           id="outlined-full-width"
-          label="Enter the Theme Title"
+          label="Link fo the events"
+          style={{ margin: 8,marginRight:500,marginLeft:200,marginTop:50 }}
+          placeholder="The link"
+          helperText="Event"
+          fullWidth
+          margin="normal"
+          onChange={handleBy}
+          value={by}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          variant="outlined"
+        />
+        </div>
+        {/* <div>
+        <TextField
+          id="outlined-full-width"
+          label="Enter the Theme Title for quotes"
           style={{ margin: 8,marginRight:500,marginLeft:200,marginTop:50 }}
           placeholder="Color for design"
           helperText="Theme color"
@@ -457,8 +480,8 @@ export default function AddTheme() {
           }}
           variant="outlined"
         />
-        </div>
-        <div style={{marginLeft:200,marginTop:50}}>
+        </div> */}
+        {/* <div style={{marginLeft:200,marginTop:50}}>
 
             {showFile ? (
 <div>
@@ -486,7 +509,7 @@ export default function AddTheme() {
 
             }
  
-        </div>
+        </div> */}
 
         <div style={{marginLeft:500,marginTop:60}}>
         <Button variant="contained" color="primary"  onClick={onSubmitTheme}>
