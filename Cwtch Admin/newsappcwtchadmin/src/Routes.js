@@ -17,6 +17,7 @@ import AddHeading from './Screen/Dash/AddHeading';
 import AddHoroscope from './Screen/Dash/AddHoroscope';
 import AddSignes from './Screen/Dash/AddSignes';
 import AddTheday from './Screen/Dash/AddTheday';
+import AddImpNews from './Screen/Dash/AddImpNews';
 
 const Routes = () => {
 
@@ -34,6 +35,9 @@ const Routes = () => {
 
                     // The day
                     <Route exact path="/addtheday" component={AddTheday}/>
+
+                    <Route exact path="/impnews" component={AddImpNews}/>
+
 
 
 
