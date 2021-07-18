@@ -429,7 +429,7 @@ const [IsPolling, setIsPolling] = useState(false)
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            News
+            Adding Important News
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
