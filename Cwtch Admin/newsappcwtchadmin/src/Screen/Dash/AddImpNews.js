@@ -271,7 +271,7 @@ export default function AddImpNews() {
         const id = uuidv4();
         firebase.database().ref(`/news/${id}`).set({
             id,
-            type:'news',
+            type:'impnews',
             time:Date.now(),
             opnion:[],
             newsTitle: thmeTitle,
@@ -753,7 +753,7 @@ Upload
           variant="outlined"
         />
             </div>
-            <div style={{marginLeft:680,marginTop:60}}>
+            {/* <div style={{marginLeft:680,marginTop:60}}>
             <Button variant="contained" color="primary"  onClick={() => 
               {
                 const temp = IsPolling;
@@ -762,7 +762,7 @@ Upload
                 }}>
                 Add Polling
             </Button>
-            </div>
+            </div> */}
             {IsPolling ? (
  <div style={{marginLeft:100,marginTop:60}}>
               <TextField
