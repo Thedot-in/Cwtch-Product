@@ -377,6 +377,14 @@ export default function AddTheme() {
 </ListItem>
 </List>
 </Link>
+<Link to="/impnews">
+<ListItem button>
+<ListItemIcon>
+<DashboardIcon />
+</ListItemIcon>
+<ListItemText primary="Add Imp News" />
+</ListItem>
+</Link>
 <Link to="/addquotes">
 <ListItem button>
 <ListItemIcon>
