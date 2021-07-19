@@ -246,7 +246,7 @@ export default function AddImpNews() {
         let file = logo;
         var storage = firebase.storage();
         var storageRef = storage.ref();
-        var uploadTask = storageRef.child(`news/pic/${file.name}`).put(file);
+        var uploadTask = storageRef.child(`impnews/pic/${file.name}`).put(file);
 
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
             (snapshot) =>{
@@ -269,7 +269,7 @@ export default function AddImpNews() {
     const onSubmitTheme = (e) => {
         e.preventDefault();
         const id = uuidv4();
-        firebase.database().ref(`/news/${id}`).set({
+        firebase.database().ref(`/impnews/${id}`).set({
             id,
             type:'impnews',
             time:Date.now(),
@@ -281,7 +281,7 @@ export default function AddImpNews() {
             suggested: ageee,
             pic:logourl,
             url:url,
-
+            views: Math.floor(Math.random() * (4000 - 2 + 1)) + 3,
             polling,
             yespoll:0,
             nopoll:0,
