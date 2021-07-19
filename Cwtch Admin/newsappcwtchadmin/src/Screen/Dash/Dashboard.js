@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -32,13 +32,22 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+
+
+import firebase from 'firebase';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit">
+        Cwtch Dashboard
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -125,9 +134,52 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+ 
 }));
 
 export default function Dashboard() {
+
+  const [headlines, setheadlines] = useState([]);
+  useEffect(() => {
+    getAllHeadlines()
+    getAllNews()
+  }, [])
+
+  // *************  Headings Section *********************
+ 
+  const getAllHeadlines = () => {
+    firebase.database().ref(`/impnews`).on('value' , snap => {
+      if(snap.val()){
+        setheadlines(Object.values(snap.val()))
+      }
+    })
+  }
+  const deleteThisHeadlines = (id) => {
+    firebase.database().ref(`/impnews/${id}`).remove();
+  } 
+
+  // *************  Headings *********************
+
+  // *************  News Section *********************
+
+  const [news, setnews] = useState([]);
+
+  const getAllNews = () => {
+    firebase.database().ref(`/news`).on('value' , snap => {
+      if(snap.val()){
+        setnews(Object.values(snap.val()))
+      }
+    })
+  }
+
+  const deleteThisNews = (id) => {
+    firebase.database().ref(`/news/${id}`).remove();
+
+  }
+
+  // *************  News *********************
+
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -137,6 +189,8 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+ 
 
   return (
     <div className={classes.root}>
@@ -226,7 +280,7 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
+        <Grid container spacing={3}>
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
@@ -239,13 +293,117 @@ export default function Dashboard() {
                 <Deposits />
               </Paper>
             </Grid>
+         
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Orders />
+            <h3>
+              Headlines
+            </h3>
+            {headlines.map((item, index) => {
+                  return(
+                    
+            <div style={{
+              marginLeft:23,
+              marginTop:55
+            }}>
+            <Card style={{
+               maxWidth: 345,
+            }}>
+      <CardActionArea>
+        <CardMedia
+          
+          style={{
+            height: 140,
+          }}
+          image={item.pic}
+          title="Contemplative Reptile"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+          image={item.newsTitle}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+          {item.newsDetails}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <Button size="large" color="primary" onClick={() => deleteThisHeadlines(item.id)}>
+          Drop Headlines
+        </Button>
+        {/* <Button size="small" color="primary">
+          Learn More
+        </Button> */}
+      </CardActions>
+    </Card>
+              </div>
+             
+             
+                  )
+            })
+
+            }
+
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+            <h3>
+              News
+            </h3>
+            {news.map((item, index) => {
+                  return(
+                    
+            <div style={{
+              marginLeft:23,
+              marginTop:55
+            }}>
+            <Card style={{
+               maxWidth: 345,
+            }}>
+      <CardActionArea>
+        <CardMedia
+          
+          style={{
+            height: 140,
+          }}
+          image={item.pic}
+          title="Contemplative Reptile"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+          {item.newsTitle}
+          </Typography>
+          <Typography gutterBottom variant="h4" component="h3">
+          {item.type}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+          {item.newsDetails}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <Button size="large" color="primary" onClick={() => deleteThisHeadlines(item.id)}>
+          Drop Headlines
+        </Button>
+        {/* <Button size="small" color="primary">
+          Learn More
+        </Button> */}
+      </CardActions>
+    </Card>
+              </div>
+             
+             
+                  )
+            })
+
+            }
+
               </Paper>
             </Grid>
           </Grid>
+          
           <Box pt={4}>
             <Copyright />
           </Box>
