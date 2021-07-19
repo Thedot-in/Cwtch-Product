@@ -388,7 +388,7 @@ export default function Dashboard() {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="large" color="primary" onClick={() => deleteThisHeadlines(item.id)}>
+              <Button size="large" color="primary" onClick={() => deleteThisNews(item.id)}>
                 Drop Headlines
               </Button>
               {/* <Button size="small" color="primary">
@@ -427,7 +427,7 @@ export default function Dashboard() {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="large" color="primary" onClick={() => deleteThisHeadlines(item.id)}>
+              <Button size="large" color="primary" onClick={() => deleteThisNews(item.id)}>
                 Drop Headlines
               </Button>
               {/* <Button size="small" color="primary">
@@ -473,7 +473,7 @@ export default function Dashboard() {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="large" color="primary" onClick={() => deleteThisHeadlines(item.id)}>
+              <Button size="large" color="primary" onClick={() => deleteThisNews(item.id)}>
                 Drop Headlines
               </Button>
               {/* <Button size="small" color="primary">
@@ -519,7 +519,7 @@ export default function Dashboard() {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="large" color="primary" onClick={() => deleteThisHeadlines(item.id)}>
+              <Button size="large" color="primary" onClick={() => deleteThisNews(item.id)}>
                 Drop Headlines
               </Button>
               {/* <Button size="small" color="primary">
