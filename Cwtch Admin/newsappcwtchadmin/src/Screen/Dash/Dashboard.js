@@ -163,6 +163,11 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  const deleteThisHeadlines = (id) => {
+    firebase.database().ref(`/impnews/${id}`).remove();
+  } 
+
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -299,7 +304,7 @@ export default function Dashboard() {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="large" color="primary">
+        <Button size="large" color="primary" onClick={() => deleteThisHeadlines(item.id)}>
           Drop Headlines
         </Button>
         {/* <Button size="small" color="primary">
