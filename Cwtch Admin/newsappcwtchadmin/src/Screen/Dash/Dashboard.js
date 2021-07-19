@@ -353,49 +353,186 @@ export default function Dashboard() {
               News
             </h3>
             {news.map((item, index) => {
-                  return(
+
+
+              if(item.type === 'ads'){
+                return(
                     
-            <div style={{
-              marginLeft:23,
-              marginTop:55
-            }}>
-            <Card style={{
-               maxWidth: 345,
-            }}>
-      <CardActionArea>
-        <CardMedia
-          
-          style={{
-            height: 140,
-          }}
-          image={item.pic}
-          title="Contemplative Reptile"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-          {item.newsTitle}
-          </Typography>
-          <Typography gutterBottom variant="h4" component="h3">
-          {item.type}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-          {item.newsDetails}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="large" color="primary" onClick={() => deleteThisHeadlines(item.id)}>
-          Drop Headlines
-        </Button>
-        {/* <Button size="small" color="primary">
-          Learn More
-        </Button> */}
-      </CardActions>
-    </Card>
-              </div>
-             
-             
-                  )
+                  <div style={{
+                    marginLeft:23,
+                    marginTop:55,
+                    backgroundColor:'#22CB5C'
+                  }}>
+                  <Card style={{
+                     maxWidth: 345,
+                  }}>
+            <CardActionArea>
+              <CardMedia
+                
+                style={{
+                  height: 140,
+                }}
+                image={item.advertisment}
+                title="Contemplative Reptile"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                {item.url}
+                </Typography>
+                <Typography gutterBottom variant="h4" component="h3">
+                {item.type}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                {item.newsDetails}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="large" color="primary" onClick={() => deleteThisNews(item.id)}>
+                Drop Headlines
+              </Button>
+              {/* <Button size="small" color="primary">
+                Learn More
+              </Button> */}
+            </CardActions>
+          </Card>
+                    </div>
+                   
+                   
+                        )
+              }
+              if(item.type === 'quotes'){
+                return(
+                    
+                  <div style={{
+                    marginLeft:23,
+                    marginTop:55,
+                    backgroundColor:'#8D3DAF'
+                  }}>
+                  <Card style={{
+                     maxWidth: 345,
+                  }}>
+            <CardActionArea>
+            
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                {item.title}
+                </Typography>
+                <Typography gutterBottom variant="h4" component="h3">
+                {item.type}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                {item.by}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="large" color="primary" onClick={() => deleteThisNews(item.id)}>
+                Drop Headlines
+              </Button>
+              {/* <Button size="small" color="primary">
+                Learn More
+              </Button> */}
+            </CardActions>
+          </Card>
+                    </div>
+                   
+                   
+                        )
+              }
+              if(item.type === 'theday'){
+                return(
+                    
+                  <div style={{
+                    marginLeft:23,
+                    marginTop:55,
+                    backgroundColor:'#0D0D0D'
+                  }}>
+                  <Card style={{
+                     maxWidth: 345,
+                  }}>
+            <CardActionArea>
+            <CardMedia
+                
+                style={{
+                  height: 140,
+                }}
+                image={item.doodle}
+                title="Contemplative Reptile"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                {item.title}
+                </Typography>
+                <Typography gutterBottom variant="h4" component="h3">
+                {item.type}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                {item.by}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="large" color="primary" onClick={() => deleteThisNews(item.id)}>
+                Drop Headlines
+              </Button>
+              {/* <Button size="small" color="primary">
+                Learn More
+              </Button> */}
+            </CardActions>
+          </Card>
+                    </div>
+                   
+                   
+                        )
+              }
+              if(item.type === 'news'){
+                return(
+                    
+                  <div style={{
+                    marginLeft:23,
+                    marginTop:55,
+                    backgroundColor:'#3944F7'
+                  }}>
+                  <Card style={{
+                     maxWidth: 345,
+                  }}>
+            <CardActionArea>
+              <CardMedia
+                
+                style={{
+                  height: 140,
+                }}
+                image={item.pic}
+                title="Contemplative Reptile"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                {item.newsTitle}
+                </Typography>
+                <Typography gutterBottom variant="h4" component="h3">
+                {item.type}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                {item.newsDetails}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="large" color="primary" onClick={() => deleteThisNews(item.id)}>
+                Drop Headlines
+              </Button>
+              {/* <Button size="small" color="primary">
+                Learn More
+              </Button> */}
+            </CardActions>
+          </Card>
+                    </div>
+                   
+                   
+                        )
+              }
+                  
             })
 
             }
