@@ -142,8 +142,11 @@ export default function Dashboard() {
   const [headlines, setheadlines] = useState([]);
   useEffect(() => {
     getAllHeadlines()
+    getAllNews()
   }, [])
 
+  // *************  Headings Section *********************
+ 
   const getAllHeadlines = () => {
     firebase.database().ref(`/impnews`).on('value' , snap => {
       if(snap.val()){
@@ -151,6 +154,30 @@ export default function Dashboard() {
       }
     })
   }
+  const deleteThisHeadlines = (id) => {
+    firebase.database().ref(`/impnews/${id}`).remove();
+  } 
+
+  // *************  Headings *********************
+
+  // *************  News Section *********************
+
+  const [news, setnews] = useState([]);
+
+  const getAllNews = () => {
+    firebase.database().ref(`/news`).on('value' , snap => {
+      if(snap.val()){
+        setnews(Object.values(snap.val()))
+      }
+    })
+  }
+
+  const deleteThisNews = (id) => {
+    firebase.database().ref(`/news/${id}`).remove();
+
+  }
+
+  // *************  News *********************
 
 
   const classes = useStyles();
@@ -163,10 +190,7 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  const deleteThisHeadlines = (id) => {
-    firebase.database().ref(`/impnews/${id}`).remove();
-  } 
-
+ 
 
   return (
     <div className={classes.root}>
@@ -269,6 +293,7 @@ export default function Dashboard() {
                 <Deposits />
               </Paper>
             </Grid>
+         
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
@@ -297,6 +322,61 @@ export default function Dashboard() {
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
           image={item.newsTitle}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+          {item.newsDetails}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <Button size="large" color="primary" onClick={() => deleteThisHeadlines(item.id)}>
+          Drop Headlines
+        </Button>
+        {/* <Button size="small" color="primary">
+          Learn More
+        </Button> */}
+      </CardActions>
+    </Card>
+              </div>
+             
+             
+                  )
+            })
+
+            }
+
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+            <h3>
+              News
+            </h3>
+            {news.map((item, index) => {
+                  return(
+                    
+            <div style={{
+              marginLeft:23,
+              marginTop:55
+            }}>
+            <Card style={{
+               maxWidth: 345,
+            }}>
+      <CardActionArea>
+        <CardMedia
+          
+          style={{
+            height: 140,
+          }}
+          image={item.pic}
+          title="Contemplative Reptile"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+          {item.newsTitle}
+          </Typography>
+          <Typography gutterBottom variant="h4" component="h3">
+          {item.type}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
           {item.newsDetails}
